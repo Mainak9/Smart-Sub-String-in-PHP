@@ -1,19 +1,19 @@
 <?php
-function smartString($originString, $maxChars, $additionalCharLimit = 0){
-    $rawCutStr = mb_substr($originString, 0, $maxChars);
-    $originAr = explode(" ", $originString);
-    $rawCutAr = explode(" ", $rawCutStr);
+function smartSubString($originString, $maxChars, $additionalCharLimit = 0){
+	$rawCutStr = mb_substr($originString, 0, $maxChars);
+	$originAr = explode(" ", $originString);
+	$rawCutAr = explode(" ", $rawCutStr);
 	$resultStr = '';
-    for ($i = 0; $i < count($rawCutAr); $i++) {
-        if (strcmp($rawCutAr[$i],$originAr[$i]) !== 0) {
-            $diff = mb_strlen($originAr[$i]) - mb_strlen($rawCutAr[$i]);	
-            $total = mb_strpos($rawCutStr, $rawCutAr[$i]) + mb_strlen($originAr[$i]);
-            if($diff > $additionalCharLimit) {
-                $resultStr = mb_substr($rawCutStr, 0, mb_strpos($rawCutStr, $rawCutAr[$i]));
-            } else {
-                $resultStr = mb_substr($originString, 0, $total);
-        	}
-    	}
+	for ($i = 0; $i < count($rawCutAr); $i++) {
+		if (strcmp($rawCutAr[$i], $originAr[$i]) !== 0) {
+		    $diff = mb_strlen($originAr[$i]) - mb_strlen($rawCutAr[$i]);	
+		    $total = mb_strpos($rawCutStr, $rawCutAr[$i]) + mb_strlen($originAr[$i]);
+		    if ($diff > $additionalCharLimit) {
+			$resultStr = mb_substr($rawCutStr, 0, mb_strpos($rawCutStr, $rawCutAr[$i]));
+		    } else {
+			$resultStr = mb_substr($originString, 0, $total);
+			}
+		}
 	}
 	return trim($resultStr);
 }
