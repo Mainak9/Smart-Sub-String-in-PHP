@@ -1,25 +1,26 @@
 <?php
-function smartString($s)
-{
-$str=substr($s,0, 30);
-$e=explode(" ",$s);
-$output=explode(" ",$str);
-for($i=0;$i<count($output);$i++)
-{
-if(strcmp($output[$i],$e[$i])!=0)
-{
-$diff=strlen($e[$i])-strlen($output[$i]);	
-$total= strpos($str,$output[$i])+strlen($e[$i]);
-if($diff > 2)
-{
-echo substr($str,0,strpos($str,$output[$i]))."<br/>";
+function smartString($originString, $maxChars, $additionalCharLimit = 0){
+    $rawCutStr = mb_substr($originString, 0, $maxChars);
+    $originAr = explode(" ", $originString);
+    $rawCutAr = explode(" ", $rawCutStr);
+	$resultStr = '';
+    for ($i = 0; $i < count($rawCutAr); $i++) {
+        if (strcmp($rawCutAr[$i],$originAr[$i]) !== 0) {
+            $diff = mb_strlen($originAr[$i]) - mb_strlen($rawCutAr[$i]);	
+            $total = mb_strpos($rawCutStr, $rawCutAr[$i]) + mb_strlen($originAr[$i]);
+            if($diff > $additionalCharLimit) {
+                $resultStr = mb_substr($rawCutStr, 0, mb_strpos($rawCutStr, $rawCutAr[$i]));
+            } else {
+                $resultStr = mb_substr($originString, 0, $total);
+        	}
+    	}
+	}
+	return trim($resultStr);
 }
-elseif($diff <= 2) {
-echo substr($s,0,$total)."<br/>";
-	}
-	}
-	}
-}
-smartString("Featuring stylish rooms and moornings for recreation boats, Room Mate Aitana is a designer hotel built in 2013 on an island in the IJ River in Amsterdam.")
+/*
+$test = 'This script works with a whitelist of functions. All functions that do not require disk, system or network access are whitelisted, others blacklisted. Max execution time is set to 3 seconds.';
+echo smartString($test, 33);
+//--> This script works with a
 
-?>
+echo smartString($test, 33, 1);
+//--> This script works with a whitelist
